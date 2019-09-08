@@ -1,0 +1,40 @@
+import java.util.*;
+import java.lang.Math;
+
+//Time: O(mn) => m is length of coins
+//Space: O(n)
+class Solution{
+
+	public static int coins(int[] coins, int n) {
+		int[] dp = new int[n];
+		for (int i=1; i<=n; i++) {
+			int ans = Integer.MAX_VALUE;
+			for (int coin : coins) {
+				if (coin>i) continue;
+				if (coin==i) {
+					ans = 1;
+					break;
+				}
+				if (dp[i-coin-1]!=Integer.MAX_VALUE) {
+					ans = Math.min(dp[i-coin-1]+1, ans);
+				}
+			}
+			dp[i-1] = ans;
+		}
+		if (dp[n-1]==Integer.MAX_VALUE) return -1;
+		return dp[n-1];
+	}
+
+
+	public static void main(String[] args) {
+		int[] coins1 = {1, 2, 5};
+		int[] coins2 = {2};
+
+		System.out.println(coins(coins1, 11));
+		System.out.println(coins(coins1, 8));
+		System.out.println(coins(coins1, 6));
+
+		System.out.println(coins(coins2, 3));
+		System.out.println(coins(coins2, 12));
+	}
+}

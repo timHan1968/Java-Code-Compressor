@@ -1,0 +1,62 @@
+import java.util.*;
+import java.lang.Math;
+
+class Solution{
+	//Time Complexity: O(n)
+	//Space Complexity: O(n)
+	public static int findLength(String s) {
+		int maxL=0, curL=0, startIdx=0;
+		HashMap<Character, Integer> map = new HashMap<> ();
+
+		for (int i=0; i<s.length(); i++) {
+			char curChar = s.charAt(i);
+			if (!map.containsKey(curChar)) {
+				//Substring continues
+				curL++;
+				map.put(curChar, i);
+			}
+			else {
+				//Substring stops, reset variables
+				int prevIdx = map.get(curChar);
+				map.put(curChar, i);
+				for (int j=startIdx; j<prevIdx; j++) {
+					map.remove(s.charAt(j));
+				}
+				curL = i-prevIdx;
+				startIdx = prevIdx+1;
+			}
+			maxL = Math.max(curL, maxL);
+		}
+		return maxL;
+	}
+
+
+	//Improved solution:
+	//	- Line 47 avoids the need for map remove
+	//	- Advatange of 2 indexes (sliding window) over 1 index
+
+	public static int lengthOfLongestSubstring(String s) {
+        int n = s.length(), ans = 0;
+        Map<Character, Integer> map = new HashMap<>(); // current index of character
+        // try to extend the range [i, j]
+        for (int j = 0, i = 0; j < n; j++) {
+            if (map.containsKey(s.charAt(j))) {
+                i = Math.max(map.get(s.charAt(j)), i);
+            }
+            ans = Math.max(ans, j - i + 1);
+            map.put(s.charAt(j), j + 1);
+        }
+        return ans;
+    } 
+
+
+	public static void main(String[] args) {
+		System.out.println(findLength("hello"));
+		System.out.println(findLength("abcabcbb"));
+		System.out.println(findLength("bbb"));
+		System.out.println(findLength("pwwkew"));
+		System.out.println(findLength("ihaveadream"));
+		System.out.println(findLength("abcde"));
+		System.out.println(findLength("eabcdaef"));
+	}
+}
