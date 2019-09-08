@@ -1,0 +1,47 @@
+import java.util.*;
+import java.lang.Math;
+class Solution{
+public static int findLength(String a) {
+int b=0,c=0,d=0;
+HashMap<Character,Integer> e=new HashMap<> ();
+for (int f=0; f<a.length(); f++) {
+char g=a.charAt(f);
+if (!e.containsKey(g)) {
+c++;
+e.put(g,f);
+}
+else {
+int h=e.get(g);
+e.put(g,f);
+for (int i=d; i<h; i++) {
+e.remove(a.charAt(i));
+}
+c=f-h;
+d=h+1;
+}
+b=Math.max(c,b);
+}
+return b;
+}
+public static int lengthOfLongestSubstring(String a) {
+int b=a.length(),c=0;
+Map<Character,Integer> d=new HashMap<>(); 
+for (int e=0,f=0; e<b; e++) {
+if (d.containsKey(a.charAt(e))) {
+f=Math.max(d.get(a.charAt(e)),f);
+}
+c=Math.max(c,e - f + 1);
+d.put(a.charAt(e),e + 1);
+}
+return c;
+}
+public static void main(String[] a) {
+System.out.println(findLength("hello"));
+System.out.println(findLength("abcabcbb"));
+System.out.println(findLength("bbb"));
+System.out.println(findLength("pwwkew"));
+System.out.println(findLength("ihaveadream"));
+System.out.println(findLength("abcde"));
+System.out.println(findLength("eabcdaef"));
+}
+}

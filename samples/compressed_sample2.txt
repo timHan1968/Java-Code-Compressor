@@ -1,0 +1,32 @@
+import java.util.*;
+import java.lang.Math;
+class Solution{
+public static int a(int[] a,int b) {
+int[] c=new int[b];
+for (int d=1; d<=b; d++) {
+int e=Integer.MAX_VALUE;
+for (int f : a) {
+if (f>d) continue;
+if (f==d) {
+e=1;
+break;
+}
+if (c[d-f-1]!=Integer.MAX_VALUE) {
+e=Math.min(c[d-f-1]+1,e);
+}
+}
+c[d-1]=e;
+}
+if (c[b-1]==Integer.MAX_VALUE) return -1;
+return c[b-1];
+}
+public static void main(String[] a) {
+int[] b={1,2,5};
+int[] c={2};
+System.out.println(coins(b,11));
+System.out.println(coins(b,8));
+System.out.println(coins(b,6));
+System.out.println(coins(c,3));
+System.out.println(coins(c,12));
+}
+}
